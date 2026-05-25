@@ -1,0 +1,25 @@
+=== OVERLAP TESTS ===
+aaa aaa aaa
+aaaa aaaa
+ababa
+11111
+xxx
+
+=== CASE SENSITIVITY TESTS ===
+Hello HELLO hello
+World WORLD world
+Case CASE case
+MiXeD mixed MIXED
+
+=== SPECIAL CHARACTERS TESTS ===
+hello.world test@email.com
+path/to/file.txt
+tab	separated	words
+dollar$ign euro€ sign
+quotes "double" and 'single'
+backslashes \ and forward /
+asterisk * and question ?
+parentheses ( ) brackets [ ] braces { }
+plus + equals = minus -
+exclamation ! at @ hash # percent % caret ^
+EOF (no newline)
