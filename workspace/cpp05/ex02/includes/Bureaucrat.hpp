@@ -5,6 +5,8 @@
 #include <string>
 #include <exception>
 
+class Form;
+
 class Bureaucrat
 {
 	private:
@@ -37,6 +39,7 @@ class Bureaucrat
 				virtual const char* what() const throw();
 		};
 
+		void	signForm(Form& f);
 };
 
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& b);

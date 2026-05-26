@@ -1,6 +1,7 @@
 #include "Bureaucrat.hpp"
+#include "Form.hpp"
 
-Bureaucrat::Bureaucrat() : _name("default"), _grade(75)
+Bureaucrat::Bureaucrat() : _name("defaultBureaucrat"), _grade(75)
 {
 	std::cout << "Bureaucrat Default Constructor called" << std::endl;
 }
@@ -77,4 +78,18 @@ std::ostream& operator<<(std::ostream& os, const Bureaucrat& b)
 	os << b.getName() << ", bureaucrat grade " << b.getGrade();
 	
 	return os;
+}
+
+void	Bureaucrat::signForm(Form& f)
+{
+	try
+	{
+		f.beSigned(*this);
+		std::cout << _name << " signed " << f.getName() << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << _name << " couldn't sign " << f.getName()
+		<< " because " << e.what() << std::endl;
+	}
 }
