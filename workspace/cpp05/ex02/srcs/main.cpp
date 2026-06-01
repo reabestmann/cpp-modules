@@ -1,5 +1,7 @@
 #include <Bureaucrat.hpp>
-#include <Form.hpp>
+#include <ShrubberyCreationForm.hpp>
+#include <RobotomyRequestForm.hpp>
+#include <PresidentialPardonForm.hpp>
 
 int main() {
 
@@ -7,109 +9,139 @@ int main() {
 
     try
     {
-        std::cout << "\n1. Default Bureaucrat & Default Form:\n" << std::endl;
-        Bureaucrat one;
-        Form    f;
-        std::cout << one << " tries signing " << f << std::endl;
-        one.signForm(f);
-        std::cout << "After sign: " << f << std::endl;
+        std::cout << "\n1. ShrubberyCreationForm with Bureaucrat grade 130:\n" << std::endl;
+        Bureaucrat bob("Bob", 130);
+        ShrubberyCreationForm shrub("garden");
+        std::cout << bob << " tries signing " << shrub << std::endl;
+        bob.signForm(shrub);
+        std::cout << "After sign: " << shrub << std::endl;
+        std::cout << bob << " tries executing " << shrub << std::endl;
+        bob.executeForm(shrub);
+        std::cout << "\nDestructors:" << std::endl;
+    } 
+    catch (std::exception& e) {
+        std::cout << "!! Error: Unexpected Exception: " << e.what() << std::endl;
+    }
 
-        std::cout << "\n2. Custom Bureaucrat & Default Form:\n" << std::endl;
-        Bureaucrat two("ok", 20);
-        Form    f2;
-        std::cout << two << " tries signing " << f2 << std::endl;
-        two.signForm(f2);
-        std::cout << "After sign: " << f2 << std::endl;
-
-        std::cout << "\n3. Custom Bureaucrat & Custom Form:\n" << std::endl;
-        Bureaucrat three("bla", 89);
-        Form f3("easy", 100, 40);
-        std::cout << three << " tries signing " << f3 << std::endl;
-        three.signForm(f3);
-        std::cout << "After sign: " << f3 << std::endl;
+    try
+    {
+        std::cout << "\n2. RobotomyRequestForm with Bureaucrat grade 45:\n" << std::endl;
+        Bureaucrat jim("Jim", 45);
+        RobotomyRequestForm robot("Bender");
+        std::cout << jim << " tries signing " << robot << std::endl;
+        jim.signForm(robot);
+        std::cout << "After sign: " << robot << std::endl;
+        
+        std::cout << "\nFirst execution attempt:" << std::endl;
+        jim.executeForm(robot);
+        std::cout << "\nSecond execution attempt:" << std::endl;
+        jim.executeForm(robot);
         std::cout << "\nDestructors:" << std::endl;
     } 
     catch (std::exception& e) {
         std::cout << "!! Error: Unexpected Exception: " << e.what() << std::endl;
     }
     
-    
-    try {
-        std::cout << "\n4. creating copied & assigned forms: \n" << std::endl;
-        Form original("Original", 42, 20);
-        Form copy(original);
-        Form assigned("Temp", 1, 2);
-        assigned = original;
-        
-        std::cout << "\nOriginal: " << original << std::endl;
-        std::cout << "Copy: " << copy << std::endl;
-        std::cout << "Assigned: " << assigned << std::endl;
-    
-        Bureaucrat b("guy", 41);
-        original.beSigned(b);
-        std::cout << "\nAfter signing original Form: " << original << std::endl;
-        std::cout << "Copy remains: " << copy << std::endl;
+    try
+    {
+        std::cout << "\n3. PresidentialPardonForm with Bureaucrat grade 1:\n" << std::endl;
+        Bureaucrat arthur("Arthur", 1);
+        PresidentialPardonForm pardon("Ford Prefect");
+        std::cout << arthur << " tries signing " << pardon << std::endl;
+        arthur.signForm(pardon);
+        std::cout << "After sign: " << pardon << std::endl;
+        std::cout << arthur << " tries executing " << pardon << std::endl;
+        arthur.executeForm(pardon);
         std::cout << "\nDestructors:" << std::endl;
-    } catch (std::exception& e) {
+    } 
+    catch (std::exception& e) {
+        std::cout << "!! Error: Unexpected Exception: " << e.what() << std::endl;
+    }
+    
+    try
+    {
+        std::cout << "\n4. One Bureaucrat executing multiple forms:\n" << std::endl;
+        Bureaucrat master("Master", 1);
+        ShrubberyCreationForm shrub("park");
+        RobotomyRequestForm robot("Android");
+        PresidentialPardonForm pardon("Marvin");
+        
+        std::cout << master << std::endl;
+        
+        std::cout << "\nSigning all forms:" << std::endl;
+        master.signForm(shrub);
+        master.signForm(robot);
+        master.signForm(pardon);
+        
+        std::cout << "\nExecuting all forms:" << std::endl;
+        master.executeForm(shrub);
+        master.executeForm(robot);
+        master.executeForm(pardon);
+        std::cout << "\nDestructors:" << std::endl;
+    } 
+    catch (std::exception& e) {
         std::cout << "!! Error: Unexpected Exception: " << e.what() << std::endl;
     }
 
     std::cout << "\n\n=== INVALID CASES ===\n" << std::endl;
     
     try {
-        std::cout << "\n1. Creating Form with signGrade 0.... (should throw exception)\n" << std::endl;
-        Form tooHigh("TooHigh", 0, 10);
-        std::cout << "!! Error: Exception not caught: " << tooHigh << std::endl;
+        std::cout << "\n1. Grade too low to sign RobotomyRequestForm (needs 72, has 150):\n" << std::endl;
+        Bureaucrat low("Lowly", 150);
+        RobotomyRequestForm robot("Test");
+        std::cout << low << " tries signing " << robot << " ... (should fail)" << std::endl;
+        low.signForm(robot);
     } catch (std::exception& e) {
         std::cout << "Caught exception: " << e.what() << std::endl;
     }
     
     try {
-        std::cout << "\n2. Creating Form with exeGrade 151.... (should throw exception)\n" << std::endl;
-        Form tooLow("TooLow", 36, 151);
-        std::cout << "!! Error: Exception not caught: " << tooLow << std::endl;
+        std::cout << "\n2. Grade too low to execute ShrubberyCreationForm (needs 137, has 138):\n" << std::endl;
+        Bureaucrat signer("Signer", 130);
+        Bureaucrat executor("Executor", 138);
+        ShrubberyCreationForm shrub("test");
+        
+        std::cout << signer << " signs the form..." << std::endl;
+        signer.signForm(shrub);
+        std::cout << "\n" << executor << " tries executing " << shrub << " ... (should fail)" << std::endl;
+        executor.executeForm(shrub);
     } catch (std::exception& e) {
         std::cout << "Caught exception: " << e.what() << std::endl;
     }
     
-    std::cout << "\n3. Bureaucrat tries to sign with too low grade\n" << std::endl;
-    
     try {
-        Bureaucrat best("new", 100);
-        Form    hard("hard", 99, 100);
-        std::cout << '\n' << best << " tries to sign " << hard << " ... (should fail)" << std::endl;
-        best.signForm(hard);
-        best.incrementGrade();
-        std::cout << "\nincrementing Bureaucrat once and try to sign again.... (should work)" << std::endl;
-        best.signForm(hard);
-        std::cout << "After sign: " << hard << std::endl;
-        std::cout << "\nDestructors:" << std::endl;
+        std::cout << "\n3. Execute unsigned PresidentialPardonForm:\n" << std::endl;
+        Bureaucrat high("High", 1);
+        PresidentialPardonForm pardon("Unsigned");
+        std::cout << high << " tries executing " << pardon << " without signing... (should fail)" << std::endl;
+        high.executeForm(pardon);
     } catch (std::exception& e) {
-        std::cerr << "!! Unexpected Error: " << e.what() << std::endl;
+        std::cout << "Caught exception: " << e.what() << std::endl;
     }
-    
-    std::cout << "\n4. One Bureaucrat tries signing multiple Forms\n" << std::endl;
-    
-    try {
-        Bureaucrat worker("Worker", 50);
-        std::cout << worker << "\n\nCreating forms..." << std::endl;
-        Form forms[] =
-        {
-            Form("easy", 100, 50),
-            Form("medium", 75, 40),
-            Form("hard", 50, 30),
-            Form("expert", 30, 20),
-            Form("impossible", 10, 5)
-        };
-
-        for (int i = 0; i < 5; ++i) {
-            std::cout << std::endl;
-            worker.signForm(forms[i]);
-            std::cout << "After sign attempt: " << forms[i] << std::endl;
-        }
+        
+    try
+    {
+        std::cout << "\n4. One Bureaucrat executing multiple forms (not high enough grade for PresidentialPardon):\n" << std::endl;
+        Bureaucrat master("Master", 10);
+        ShrubberyCreationForm shrub("park");
+        RobotomyRequestForm robot("Android");
+        PresidentialPardonForm pardon("Marvin");
+        
+        std::cout << master << std::endl;
+        
+        std::cout << "\nSigning all forms:" << std::endl;
+        master.signForm(shrub);
+        master.signForm(robot);
+        master.signForm(pardon);
+        
+        std::cout << "\nExecuting all forms:" << std::endl;
+        master.executeForm(shrub);
+        master.executeForm(robot);
+        master.executeForm(pardon);
         std::cout << "\nDestructors:" << std::endl;
-    } catch (std::exception& e) {
-        std::cerr << "!!Unexpected Error : " << e.what() << std::endl;
+    } 
+    catch (std::exception& e) {
+        std::cout << "!! Error: " << e.what() << std::endl;
     }
     
     std::cout << "\n=== END ===\n" << std::endl;

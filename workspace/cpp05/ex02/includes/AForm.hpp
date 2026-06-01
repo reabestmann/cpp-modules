@@ -1,7 +1,11 @@
 #ifndef AFORM_HPP
 # define AFORM_HPP
 
-#include <Bureaucrat.hpp>
+#include <iostream>
+#include <string>
+#include <exception>
+
+class Bureaucrat;
 
 class AForm
 {
@@ -15,7 +19,6 @@ class AForm
 
 	public:
 
-		AForm();
 		AForm(const std::string name, const int signGrade, const int exeGrade);
 		AForm(const AForm& other);
 		AForm& operator=(const AForm& other);
@@ -45,11 +48,11 @@ class AForm
 		};
 
 		void	beSigned(const Bureaucrat& b);
-		void	execute(const Bureaucrat& b) const;
+		void	execute(const Bureaucrat& b) const; // checks grade & form signed
 
-		virtual void executeAction() const = 0;
+		virtual void executeAction() const = 0; // actually executes, called by execute
 };
 
-std::ostream& operator<<(std::ostream& out, const Form& form);
+std::ostream& operator<<(std::ostream& out, const AForm& form);
 
 #endif

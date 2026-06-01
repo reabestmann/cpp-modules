@@ -1,4 +1,4 @@
-NAME = differentForms
+NAME = Intern
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 
 CXXFLAGS += -I includes
